@@ -142,7 +142,7 @@ const Address: React.FC = () => {
   useEffect(() => {
     const token = getAuthHeaders();
     axios
-      .get(`https://https://greenshop-backend-production.up.railway.app/shop/customer/`, token)
+      .get(`https://greenshop-backend-production.up.railway.app/shop/customer/`, token)
       .then((response) => {
         setUserData(response.data);
       })
