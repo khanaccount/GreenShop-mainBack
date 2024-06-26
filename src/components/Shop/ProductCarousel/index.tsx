@@ -54,7 +54,11 @@ const ProductCarousel: React.FC = () => {
           <div key={index} className={s.carouselItems}>
             {carousel.map((item) => (
               <Link to={`/shop/${item.id}`} key={item.id} className={s.item}>
-                <img className={s.imgBlock} src={`/${item.mainImg}`} alt={item.name} />
+                <img
+                  className={s.imgBlock}
+                  src={`https://greenshop-backend-production.up.railway.app/${item.mainImg}`}
+                  alt={item.name}
+                />
                 {item.discount ? (
                   <p className={s.itemDiscount}>{item.discountPercentage} Скидка</p>
                 ) : null}
