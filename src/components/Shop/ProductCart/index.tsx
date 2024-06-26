@@ -334,11 +334,21 @@ const ProductCart: React.FC = () => {
           <div className={s.smallImgBlock}>
             <div
               className={
-                selectedImage === `/${product.mainImg}` ? s.bgImgSmallActive : s.bgImgSmall
+                selectedImage ===
+                `https://greenshop-backend-production.up.railway.app/${product.mainImg}`
+                  ? s.bgImgSmallActive
+                  : s.bgImgSmall
               }
-              onClick={() => handleImageClick(`/${product.mainImg}`)}
+              onClick={() =>
+                handleImageClick(
+                  `https://greenshop-backend-production.up.railway.app/${product.mainImg}`
+                )
+              }
             >
-              <img className={s.smallImg} src={`/${product.mainImg}`} />
+              <img
+                className={s.smallImg}
+                src={`https://greenshop-backend-production.up.railway.app/${product.mainImg}`}
+              />
             </div>
 
             <div
