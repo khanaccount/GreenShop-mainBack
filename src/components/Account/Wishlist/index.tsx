@@ -67,6 +67,7 @@ const Wishlist: React.FC = () => {
           <div className={s.card} key={item.product.id}>
             <div className={s.cardImg}>
               <img
+                height={360}
                 src={`https://greenshop-backend-production.up.railway.app${item.product.mainImg}`}
                 alt={item.product.name}
               />
