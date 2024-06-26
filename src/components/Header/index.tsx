@@ -28,7 +28,7 @@ const Header: React.FC = () => {
     const token = getAuthHeaders();
 
     axios
-      .get(`http://127.0.0.1:8000/shop/customer/`, token)
+      .get(`greenshop-backend-production.up.railway.app/shop/customer/`, token)
       .then((response) => {
         setUserData(response.data);
       })
@@ -99,7 +99,11 @@ const Header: React.FC = () => {
         {isUserLoggedIn() ? (
           <Link className={s.account} to="/account">
             {userData?.profileImg ? (
-              <img width={28} src={`http://127.0.0.1:8000${userData.profileImg}`} alt="user" />
+              <img
+                width={28}
+                src={`greenshop-backend-production.up.railway.app${userData.profileImg}`}
+                alt="user"
+              />
             ) : (
               <img width={28} src="/img/header/user.svg" alt="user" />
             )}

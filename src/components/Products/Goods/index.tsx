@@ -75,7 +75,7 @@ const Goods: React.FC<GoodsProps> = ({
 
   useEffect(() => {
     axios
-      .get("http://127.0.0.1:8000/shop/product/")
+      .get("greenshop-backend-production.up.railway.app/shop/product/")
       .then((response) => {
         const fetchedItems: Goods[] = response.data;
 
@@ -152,7 +152,7 @@ const Goods: React.FC<GoodsProps> = ({
       try {
         const authHeaders = getAuthHeaders();
         const response = await axios.get<FavoriteProduct[]>(
-          "http://127.0.0.1:8000/shop/product/favourite/",
+          "greenshop-backend-production.up.railway.app/shop/product/favourite/",
           authHeaders
         );
         const updatedFavoriteStates = new Map<number, boolean>();
@@ -180,7 +180,7 @@ const Goods: React.FC<GoodsProps> = ({
         updatedFavoriteStates.set(id, false);
       } else {
         const response = await axios.post(
-          `http://127.0.0.1:8000/shop/product/favourite/${id}/`,
+          `greenshop-backend-production.up.railway.app/shop/product/favourite/${id}/`,
           {},
           authHeaders
         );
@@ -199,7 +199,10 @@ const Goods: React.FC<GoodsProps> = ({
   const deleteFavorite = async (id: number) => {
     try {
       const authHeaders = getAuthHeaders();
-      await axios.delete(`http://127.0.0.1:8000/shop/product/favourite/${id}/`, authHeaders);
+      await axios.delete(
+        `greenshop-backend-production.up.railway.app/shop/product/favourite/${id}/`,
+        authHeaders
+      );
       console.log("Product removed from favorites");
     } catch (error) {
       console.error("Error deleting favorite:", error);

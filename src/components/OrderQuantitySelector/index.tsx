@@ -65,7 +65,7 @@ const OrderQuantitySelector: React.FC = () => {
   const fetchItems = () => {
     const authHeaders = getAuthHeaders();
     axios
-      .get<OrderInfo>("http://127.0.0.1:8000/shop/cart/", authHeaders)
+      .get<OrderInfo>("greenshop-backend-production.up.railway.app/shop/cart/", authHeaders)
       .then((response) => {
         setOrderInfo(response.data);
       })
@@ -78,7 +78,7 @@ const OrderQuantitySelector: React.FC = () => {
     const authHeaders = getAuthHeaders();
 
     axios
-      .delete(`http://127.0.0.1:8000/shop/orderItem/${idProduct}/`, {
+      .delete(`greenshop-backend-production.up.railway.app/shop/orderItem/${idProduct}/`, {
         headers: {
           Authorization: authHeaders?.headers?.Authorization,
         },
@@ -100,7 +100,7 @@ const OrderQuantitySelector: React.FC = () => {
 
     axios
       .put(
-        `http://127.0.0.1:8000/shop/orderItem/${idProduct}/`,
+        `greenshop-backend-production.up.railway.app/shop/orderItem/${idProduct}/`,
         { quantity: newQuantity, size: sizeId },
         authHeaders
       )
@@ -126,7 +126,11 @@ const OrderQuantitySelector: React.FC = () => {
     const authHeaders = getAuthHeaders();
 
     axios
-      .post(`http://127.0.0.1:8000/shop/cart/coupon/`, { couponCode }, authHeaders)
+      .post(
+        `greenshop-backend-production.up.railway.app/shop/cart/coupon/`,
+        { couponCode },
+        authHeaders
+      )
       .then((response) => {
         console.log("Coupon applied successfully", response.data);
         setAppliedCoupon(couponCode);
@@ -143,7 +147,7 @@ const OrderQuantitySelector: React.FC = () => {
     const authHeaders = getAuthHeaders();
 
     axios
-      .delete(`http://127.0.0.1:8000/shop/cart/coupon/`, authHeaders)
+      .delete(`greenshop-backend-production.up.railway.app/shop/cart/coupon/`, authHeaders)
       .then(() => {
         console.log(`Coupon ${appliedCoupon} deleted successfully`);
         setAppliedCoupon(null);

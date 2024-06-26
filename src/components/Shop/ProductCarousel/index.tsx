@@ -21,7 +21,7 @@ const ProductCarousel: React.FC = () => {
 
   useEffect(() => {
     axios
-      .get("http://127.0.0.1:8000/shop/product/carousel/")
+      .get("greenshop-backend-production.up.railway.app/shop/product/carousel/")
       .then((response) => {
         const items: Items[] = response.data;
 

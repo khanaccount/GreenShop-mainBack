@@ -77,7 +77,7 @@ const Payment: React.FC = () => {
   const fetchItems = () => {
     const authHeaders = getAuthHeaders();
     axios
-      .get<OrderInfo>("http://127.0.0.1:8000/shop/cart/", authHeaders)
+      .get<OrderInfo>("greenshop-backend-production.up.railway.app/shop/cart/", authHeaders)
       .then((response) => {
         setOrderInfo(response.data);
       })
@@ -89,7 +89,7 @@ const Payment: React.FC = () => {
   const fetchShippingAddresses = () => {
     const token = getAuthHeaders();
     axios
-      .get("http://127.0.0.1:8000/shop/shippingAddress/", token)
+      .get("greenshop-backend-production.up.railway.app/shop/shippingAddress/", token)
       .then((response) => {
         setShippingAddress(response.data);
       })
@@ -117,7 +117,7 @@ const Payment: React.FC = () => {
     };
 
     axios
-      .delete("http://127.0.0.1:8000/shop/shippingAddress/", {
+      .delete("greenshop-backend-production.up.railway.app/shop/shippingAddress/", {
         headers: {
           Authorization: authHeaders?.headers?.Authorization,
         },
@@ -126,7 +126,7 @@ const Payment: React.FC = () => {
       .then(() => {
         console.log(`Shipping address with ID ${addressIdToDelete} deleted successfully`);
         axios
-          .get("http://127.0.0.1:8000/shop/shippingAddress/", authHeaders)
+          .get("greenshop-backend-production.up.railway.app/shop/shippingAddress/", authHeaders)
           .then((response) => {
             setShippingAddress(response.data);
           })
@@ -160,7 +160,7 @@ const Payment: React.FC = () => {
     }
 
     axios
-      .post("http://127.0.0.1:8000/shop/transaction/", requestData, {
+      .post("greenshop-backend-production.up.railway.app/shop/transaction/", requestData, {
         headers: {
           Authorization: authHeaders?.headers?.Authorization,
         },

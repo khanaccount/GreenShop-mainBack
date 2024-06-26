@@ -142,7 +142,7 @@ const Address: React.FC = () => {
   useEffect(() => {
     const token = getAuthHeaders();
     axios
-      .get(`http://127.0.0.1:8000/shop/customer/`, token)
+      .get(`greenshop-backend-production.up.railway.app/shop/customer/`, token)
       .then((response) => {
         setUserData(response.data);
       })
@@ -154,7 +154,7 @@ const Address: React.FC = () => {
   useEffect(() => {
     const token = getAuthHeaders();
     axios
-      .get("http://127.0.0.1:8000/shop/shippingAddress/", token)
+      .get("greenshop-backend-production.up.railway.app/shop/shippingAddress/", token)
       .then((response) => {
         setShippingAddress(response.data);
       })
@@ -189,11 +189,14 @@ const Address: React.FC = () => {
     const authHeaders = getAuthHeaders();
 
     axios
-      .post("http://127.0.0.1:8000/shop/shippingAddress/", data, authHeaders)
+      .post("greenshop-backend-production.up.railway.app/shop/shippingAddress/", data, authHeaders)
       .then((response) => {
         console.log("Shipping address added:", response.data);
         axios
-          .get("http://127.0.0.1:8000/shop/shippingAddress/", getAuthHeaders())
+          .get(
+            "greenshop-backend-production.up.railway.app/shop/shippingAddress/",
+            getAuthHeaders()
+          )
           .then((response) => {
             setShippingAddress(response.data);
           })
@@ -220,7 +223,7 @@ const Address: React.FC = () => {
     };
 
     axios
-      .delete("http://127.0.0.1:8000/shop/shippingAddress/", {
+      .delete("greenshop-backend-production.up.railway.app/shop/shippingAddress/", {
         headers: {
           Authorization: authHeaders?.headers?.Authorization,
         },
@@ -229,7 +232,7 @@ const Address: React.FC = () => {
       .then(() => {
         console.log(`Shipping address with ID ${addressIdToDelete} deleted successfully`);
         axios
-          .get("http://127.0.0.1:8000/shop/shippingAddress/", authHeaders)
+          .get("greenshop-backend-production.up.railway.app/shop/shippingAddress/", authHeaders)
           .then((response) => {
             setShippingAddress(response.data);
           })

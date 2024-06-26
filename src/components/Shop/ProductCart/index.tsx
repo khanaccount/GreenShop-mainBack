@@ -141,7 +141,7 @@ const ProductCart: React.FC = () => {
     try {
       const authHeaders = getAuthHeaders();
       await axios.post(
-        `http://127.0.0.1:8000/shop/product/reviews/${id}/`,
+        `greenshop-backend-production.up.railway.app/shop/product/reviews/${id}/`,
         {
           rating: starsSelected,
           text: reviewText,
@@ -149,7 +149,9 @@ const ProductCart: React.FC = () => {
         authHeaders
       );
 
-      const updatedProductResponse = await axios.get(`http://127.0.0.1:8000/shop/product/${id}/`);
+      const updatedProductResponse = await axios.get(
+        `greenshop-backend-production.up.railway.app/shop/product/${id}/`
+      );
       setProduct(updatedProductResponse.data[0]);
 
       setReviewText("");
@@ -168,7 +170,7 @@ const ProductCart: React.FC = () => {
         setIsFavoriteActive(false);
       } else {
         const response = await axios.post(
-          `http://127.0.0.1:8000/shop/product/favourite/${id}/`,
+          `greenshop-backend-production.up.railway.app/shop/product/favourite/${id}/`,
           {},
           authHeaders
         );
@@ -185,7 +187,10 @@ const ProductCart: React.FC = () => {
   const deleteFavorite = async () => {
     try {
       const authHeaders = getAuthHeaders();
-      await axios.delete(`http://127.0.0.1:8000/shop/product/favourite/${id}/`, authHeaders);
+      await axios.delete(
+        `greenshop-backend-production.up.railway.app/shop/product/favourite/${id}/`,
+        authHeaders
+      );
       console.log("Product removed from favorites");
     } catch (error) {
       console.error("Error deleting favorite:", error);
@@ -202,7 +207,7 @@ const ProductCart: React.FC = () => {
       try {
         const authHeaders = getAuthHeaders();
         const response = await axios.get(
-          `http://127.0.0.1:8000/shop/product/favourite/${id}/`,
+          `greenshop-backend-production.up.railway.app/shop/product/favourite/${id}/`,
           authHeaders
         );
 
@@ -255,7 +260,7 @@ const ProductCart: React.FC = () => {
     if (id) {
       const authHeaders = getAuthHeaders();
       axios
-        .get(`http://127.0.0.1:8000/shop/product/${id}/`, authHeaders)
+        .get(`greenshop-backend-production.up.railway.app/shop/product/${id}/`, authHeaders)
         .then((response) => {
           setProduct(response.data[0]);
           setSelectedImage(`/${response.data[0].mainImg}`);
@@ -291,7 +296,11 @@ const ProductCart: React.FC = () => {
           return;
         }
 
-        await axios.post(`http://127.0.0.1:8000/shop/orderItem/${id}/`, payload, authHeaders);
+        await axios.post(
+          `greenshop-backend-production.up.railway.app/shop/orderItem/${id}/`,
+          payload,
+          authHeaders
+        );
         setIsAlreadyAdded(true);
       } else {
         console.error(
