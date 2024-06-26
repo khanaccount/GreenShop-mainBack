@@ -266,7 +266,7 @@ const ProductCart: React.FC = () => {
         )
         .then((response) => {
           setProduct(response.data[0]);
-          setSelectedImage(`/${response.data[0].mainImg}`);
+          setSelectedImage(`${response.data[0].mainImg}`);
 
           const sizesFromResponse = response.data[0].size || [];
           setAvailableSizes(sizesFromResponse);
