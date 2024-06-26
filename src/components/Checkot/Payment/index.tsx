@@ -77,7 +77,10 @@ const Payment: React.FC = () => {
   const fetchItems = () => {
     const authHeaders = getAuthHeaders();
     axios
-      .get<OrderInfo>("https://greenshop-backend-production.up.railway.app/shop/cart/", authHeaders)
+      .get<OrderInfo>(
+        "https://greenshop-backend-production.up.railway.app/api/shop/cart/",
+        authHeaders
+      )
       .then((response) => {
         setOrderInfo(response.data);
       })
@@ -89,7 +92,7 @@ const Payment: React.FC = () => {
   const fetchShippingAddresses = () => {
     const token = getAuthHeaders();
     axios
-      .get("https://greenshop-backend-production.up.railway.app/shop/shippingAddress/", token)
+      .get("https://greenshop-backend-production.up.railway.app/api/shop/shippingAddress/", token)
       .then((response) => {
         setShippingAddress(response.data);
       })
@@ -117,7 +120,7 @@ const Payment: React.FC = () => {
     };
 
     axios
-      .delete("https://greenshop-backend-production.up.railway.app/shop/shippingAddress/", {
+      .delete("https://greenshop-backend-production.up.railway.app/api/shop/shippingAddress/", {
         headers: {
           Authorization: authHeaders?.headers?.Authorization,
         },
@@ -127,7 +130,7 @@ const Payment: React.FC = () => {
         console.log(`Shipping address with ID ${addressIdToDelete} deleted successfully`);
         axios
           .get(
-            "https://greenshop-backend-production.up.railway.app/shop/shippingAddress/",
+            "https://greenshop-backend-production.up.railway.app/api/shop/shippingAddress/",
             authHeaders
           )
           .then((response) => {
@@ -163,11 +166,15 @@ const Payment: React.FC = () => {
     }
 
     axios
-      .post("https://greenshop-backend-production.up.railway.app/shop/transaction/", requestData, {
-        headers: {
-          Authorization: authHeaders?.headers?.Authorization,
-        },
-      })
+      .post(
+        "https://greenshop-backend-production.up.railway.app/api/shop/transaction/",
+        requestData,
+        {
+          headers: {
+            Authorization: authHeaders?.headers?.Authorization,
+          },
+        }
+      )
       .then((response) => {
         setShippingAddress(response.data);
       })

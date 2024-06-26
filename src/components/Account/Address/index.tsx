@@ -142,7 +142,7 @@ const Address: React.FC = () => {
   useEffect(() => {
     const token = getAuthHeaders();
     axios
-      .get(`https://greenshop-backend-production.up.railway.app/shop/customer/`, token)
+      .get(`https://greenshop-backend-production.up.railway.app/api/shop/customer/`, token)
       .then((response) => {
         setUserData(response.data);
       })
@@ -154,7 +154,7 @@ const Address: React.FC = () => {
   useEffect(() => {
     const token = getAuthHeaders();
     axios
-      .get("https://greenshop-backend-production.up.railway.app/shop/shippingAddress/", token)
+      .get("https://greenshop-backend-production.up.railway.app/api/shop/shippingAddress/", token)
       .then((response) => {
         setShippingAddress(response.data);
       })
@@ -190,7 +190,7 @@ const Address: React.FC = () => {
 
     axios
       .post(
-        "https://greenshop-backend-production.up.railway.app/shop/shippingAddress/",
+        "https://greenshop-backend-production.up.railway.app/api/shop/shippingAddress/",
         data,
         authHeaders
       )
@@ -198,7 +198,7 @@ const Address: React.FC = () => {
         console.log("Shipping address added:", response.data);
         axios
           .get(
-            "https://greenshop-backend-production.up.railway.app/shop/shippingAddress/",
+            "https://greenshop-backend-production.up.railway.app/api/shop/shippingAddress/",
             getAuthHeaders()
           )
           .then((response) => {
@@ -227,7 +227,7 @@ const Address: React.FC = () => {
     };
 
     axios
-      .delete("https://greenshop-backend-production.up.railway.app/shop/shippingAddress/", {
+      .delete("https://greenshop-backend-production.up.railway.app/api/shop/shippingAddress/", {
         headers: {
           Authorization: authHeaders?.headers?.Authorization,
         },
@@ -237,7 +237,7 @@ const Address: React.FC = () => {
         console.log(`Shipping address with ID ${addressIdToDelete} deleted successfully`);
         axios
           .get(
-            "https://greenshop-backend-production.up.railway.app/shop/shippingAddress/",
+            "https://greenshop-backend-production.up.railway.app/api/shop/shippingAddress/",
             authHeaders
           )
           .then((response) => {

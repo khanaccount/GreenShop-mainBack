@@ -33,7 +33,7 @@ const Details: React.FC = () => {
         };
 
         const response = await axios.post(
-          "https://greenshop-backend-production.up.railway.app/shop/customer/avatar/",
+          "https://greenshop-backend-production.up.railway.app/api/shop/customer/avatar/",
           profileImg,
           config
         );
@@ -57,7 +57,7 @@ const Details: React.FC = () => {
     try {
       const token = getAuthHeaders();
       await axios.delete(
-        "https://greenshop-backend-production.up.railway.app/shop/customer/avatar/",
+        "https://greenshop-backend-production.up.railway.app/api/shop/customer/avatar/",
         {
           headers: {
             Authorization: token?.headers?.Authorization,
@@ -77,7 +77,7 @@ const Details: React.FC = () => {
     try {
       const token = getAuthHeaders();
       const response = await axios.post(
-        "https://greenshop-backend-production.up.railway.app/shop/customer/changePassword/",
+        "https://greenshop-backend-production.up.railway.app/api/shop/customer/changePassword/",
         {
           currentPassword: currentPasswordRef.current?.value,
           password: newPasswordRef.current?.value,

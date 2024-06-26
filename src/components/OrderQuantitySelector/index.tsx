@@ -65,7 +65,10 @@ const OrderQuantitySelector: React.FC = () => {
   const fetchItems = () => {
     const authHeaders = getAuthHeaders();
     axios
-      .get<OrderInfo>("https://greenshop-backend-production.up.railway.app/shop/cart/", authHeaders)
+      .get<OrderInfo>(
+        "https://greenshop-backend-production.up.railway.app/api/shop/cart/",
+        authHeaders
+      )
       .then((response) => {
         setOrderInfo(response.data);
       })
@@ -78,12 +81,15 @@ const OrderQuantitySelector: React.FC = () => {
     const authHeaders = getAuthHeaders();
 
     axios
-      .delete(`https://greenshop-backend-production.up.railway.app/shop/orderItem/${idProduct}/`, {
-        headers: {
-          Authorization: authHeaders?.headers?.Authorization,
-        },
-        data: { size: sizeId },
-      })
+      .delete(
+        `https://greenshop-backend-production.up.railway.app/api/shop/orderItem/${idProduct}/`,
+        {
+          headers: {
+            Authorization: authHeaders?.headers?.Authorization,
+          },
+          data: { size: sizeId },
+        }
+      )
       .then(() => {
         fetchItems();
         console.log(`Item with ID ${idProduct} and size ${sizeId} deleted successfully.`);
@@ -100,7 +106,7 @@ const OrderQuantitySelector: React.FC = () => {
 
     axios
       .put(
-        `https://greenshop-backend-production.up.railway.app/shop/orderItem/${idProduct}/`,
+        `https://greenshop-backend-production.up.railway.app/api/shop/orderItem/${idProduct}/`,
         { quantity: newQuantity, size: sizeId },
         authHeaders
       )
@@ -127,7 +133,7 @@ const OrderQuantitySelector: React.FC = () => {
 
     axios
       .post(
-        `https://greenshop-backend-production.up.railway.app/shop/cart/coupon/`,
+        `https://greenshop-backend-production.up.railway.app/api/shop/cart/coupon/`,
         { couponCode },
         authHeaders
       )
@@ -147,7 +153,10 @@ const OrderQuantitySelector: React.FC = () => {
     const authHeaders = getAuthHeaders();
 
     axios
-      .delete(`https://greenshop-backend-production.up.railway.app/shop/cart/coupon/`, authHeaders)
+      .delete(
+        `https://greenshop-backend-production.up.railway.app/api/shop/cart/coupon/`,
+        authHeaders
+      )
       .then(() => {
         console.log(`Coupon ${appliedCoupon} deleted successfully`);
         setAppliedCoupon(null);
