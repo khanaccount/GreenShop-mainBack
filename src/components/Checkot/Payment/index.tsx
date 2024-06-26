@@ -241,7 +241,10 @@ const Payment: React.FC = () => {
         {orderInfo.output.map((item) => (
           <div className={s.card} key={item.id}>
             <Link to={`/shop/${item.idProduct}`}>
-              <img src={`/${item.mainImg}`} alt={item.name} />
+              <img
+                src={`https://greenshop-backend-production.up.railway.app${item.mainImg}`}
+                alt={item.name}
+              />
             </Link>
             <div className={s.cardInfo}>
               <p className={s.cardInfoName}>{item.name}</p>

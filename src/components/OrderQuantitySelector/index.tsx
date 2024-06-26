@@ -182,7 +182,12 @@ const OrderQuantitySelector: React.FC = () => {
         {orderInfo.output.map((item) => (
           <div key={item.id} className={s.goodsBlock}>
             <div className={s.info}>
-              <img width={70} height={70} src={`/${item.mainImg}`} alt="mainImg" />
+              <img
+                width={70}
+                height={70}
+                src={`https://greenshop-backend-production.up.railway.app${item.mainImg}`}
+                alt="mainImg"
+              />
               <div className={s.nameSku}>
                 <p>{item.name}</p>
                 <p className={s.sku}>
