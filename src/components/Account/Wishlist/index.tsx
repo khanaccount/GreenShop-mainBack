@@ -51,7 +51,6 @@ const Wishlist: React.FC = () => {
           },
         }
       );
-      console.log(productId);
 
       setCardData(
         (prevCardData) => prevCardData?.filter((item) => item.product.id !== productId) || null
@@ -67,7 +66,10 @@ const Wishlist: React.FC = () => {
         cardData.map((item) => (
           <div className={s.card} key={item.product.id}>
             <div className={s.cardImg}>
-              <img src={item.product.mainImg} alt={item.product.name} />
+              <img
+                src={`https://greenshop-backend-production.up.railway.app${item.product.mainImg}`}
+                alt={item.product.name}
+              />
               <div className={s.hoverLinks}>
                 <button onClick={() => handleRemoveFromFavorites(item.product.id)}>
                   <img width={15} height={15} src="img/wishlist/cross.svg" alt="cross" />
