@@ -501,11 +501,7 @@ const ProductCart: React.FC = () => {
         {activeTab === "description" ? (
           <div className={s.description}>
             <p className={s.descriptionInfo}>
-              {product.shortDescriptionInfo ? (
-                product.shortDescriptionInfo
-              ) : (
-                <span>Нет описания.</span>
-              )}
+              {product.descriptionInfo ? product.shortDescriptionInfo : <span>Нет описания.</span>}
             </p>
           </div>
         ) : (
