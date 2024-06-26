@@ -77,7 +77,7 @@ const Payment: React.FC = () => {
   const fetchItems = () => {
     const authHeaders = getAuthHeaders();
     axios
-      .get<OrderInfo>("greenshop-backend-production.up.railway.app/shop/cart/", authHeaders)
+      .get<OrderInfo>("https://greenshop-backend-production.up.railway.app/shop/cart/", authHeaders)
       .then((response) => {
         setOrderInfo(response.data);
       })
@@ -89,7 +89,7 @@ const Payment: React.FC = () => {
   const fetchShippingAddresses = () => {
     const token = getAuthHeaders();
     axios
-      .get("greenshop-backend-production.up.railway.app/shop/shippingAddress/", token)
+      .get("https://greenshop-backend-production.up.railway.app/shop/shippingAddress/", token)
       .then((response) => {
         setShippingAddress(response.data);
       })
@@ -117,7 +117,7 @@ const Payment: React.FC = () => {
     };
 
     axios
-      .delete("greenshop-backend-production.up.railway.app/shop/shippingAddress/", {
+      .delete("https://greenshop-backend-production.up.railway.app/shop/shippingAddress/", {
         headers: {
           Authorization: authHeaders?.headers?.Authorization,
         },
@@ -126,7 +126,10 @@ const Payment: React.FC = () => {
       .then(() => {
         console.log(`Shipping address with ID ${addressIdToDelete} deleted successfully`);
         axios
-          .get("greenshop-backend-production.up.railway.app/shop/shippingAddress/", authHeaders)
+          .get(
+            "https://greenshop-backend-production.up.railway.app/shop/shippingAddress/",
+            authHeaders
+          )
           .then((response) => {
             setShippingAddress(response.data);
           })
@@ -160,7 +163,7 @@ const Payment: React.FC = () => {
     }
 
     axios
-      .post("greenshop-backend-production.up.railway.app/shop/transaction/", requestData, {
+      .post("https://greenshop-backend-production.up.railway.app/shop/transaction/", requestData, {
         headers: {
           Authorization: authHeaders?.headers?.Authorization,
         },

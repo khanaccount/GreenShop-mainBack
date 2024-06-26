@@ -28,7 +28,7 @@ const Header: React.FC = () => {
     const token = getAuthHeaders();
 
     axios
-      .get(`greenshop-backend-production.up.railway.app/shop/customer/`, token)
+      .get(`https://greenshop-backend-production.up.railway.app/shop/customer/`, token)
       .then((response) => {
         setUserData(response.data);
       })
@@ -101,7 +101,7 @@ const Header: React.FC = () => {
             {userData?.profileImg ? (
               <img
                 width={28}
-                src={`greenshop-backend-production.up.railway.app${userData.profileImg}`}
+                src={`https://greenshop-backend-production.up.railway.app${userData.profileImg}`}
                 alt="user"
               />
             ) : (

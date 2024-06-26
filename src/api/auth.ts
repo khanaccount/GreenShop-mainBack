@@ -13,7 +13,7 @@ interface LoginData {
   password: string;
 }
 
-const apiBaseUrl = "greenshop-backend-production.up.railway.app/shop/";
+const apiBaseUrl = "https://greenshop-backend-production.up.railway.app/shop/";
 
 let tokenRefreshInterval: NodeJS.Timeout;
 

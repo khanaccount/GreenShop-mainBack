@@ -22,7 +22,7 @@ const Wishlist: React.FC = () => {
       try {
         const authHeaders = getAuthHeaders();
         const response = await axios.get(
-          `greenshop-backend-production.up.railway.app/shop/product/favourite/`,
+          `https://greenshop-backend-production.up.railway.app/shop/product/favourite/`,
           {
             headers: {
               Authorization: authHeaders?.headers?.Authorization,
@@ -44,7 +44,7 @@ const Wishlist: React.FC = () => {
     try {
       const authHeaders = getAuthHeaders();
       await axios.delete(
-        `greenshop-backend-production.up.railway.app/shop/product/favourite/${productId}/`,
+        `https://greenshop-backend-production.up.railway.app/shop/product/favourite/${productId}/`,
         {
           headers: {
             Authorization: authHeaders?.headers?.Authorization,

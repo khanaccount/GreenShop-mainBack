@@ -33,7 +33,7 @@ const Details: React.FC = () => {
         };
 
         const response = await axios.post(
-          "greenshop-backend-production.up.railway.app/shop/customer/avatar/",
+          "https://greenshop-backend-production.up.railway.app/shop/customer/avatar/",
           profileImg,
           config
         );
@@ -56,11 +56,14 @@ const Details: React.FC = () => {
   const handleDeleteAvatar = async () => {
     try {
       const token = getAuthHeaders();
-      await axios.delete("greenshop-backend-production.up.railway.app/shop/customer/avatar/", {
-        headers: {
-          Authorization: token?.headers?.Authorization,
-        },
-      });
+      await axios.delete(
+        "https://greenshop-backend-production.up.railway.app/shop/customer/avatar/",
+        {
+          headers: {
+            Authorization: token?.headers?.Authorization,
+          },
+        }
+      );
       setImageSrc(null);
       alert("Avatar deleted successfully");
       window.location.reload();
@@ -74,7 +77,7 @@ const Details: React.FC = () => {
     try {
       const token = getAuthHeaders();
       const response = await axios.post(
-        "greenshop-backend-production.up.railway.app/shop/customer/changePassword/",
+        "https://greenshop-backend-production.up.railway.app/shop/customer/changePassword/",
         {
           currentPassword: currentPasswordRef.current?.value,
           password: newPasswordRef.current?.value,
