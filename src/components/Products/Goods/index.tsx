@@ -221,7 +221,7 @@ const Goods: React.FC<GoodsProps> = ({
             <div className={s.cardImg}>
               <Link to={`/shop/${item.id}`}>
                 <img
-                  src={`https://greenshop-backend-production.up.railway.app/${item.mainImg}`}
+                  src={`https://greenshop-backend-production.up.railway.app${item.mainImg}`}
                   alt={item.name}
                 />
               </Link>
