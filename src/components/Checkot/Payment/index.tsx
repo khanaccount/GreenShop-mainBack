@@ -47,6 +47,23 @@ interface ShippingAddress {
   };
 }
 
+interface OrderConfirmation {
+  id: number;
+  date: string;
+  totalPrice: string;
+  shippingPrice: string;
+  paymentMethod: string;
+}
+
+interface ServerOrderItem {
+  id: number;
+  name: string;
+  mainImg: string;
+  sku: string;
+  quantity: number;
+  subtotal: string;
+}
+
 export interface OrderInfo {
   prices: OrderPrices;
   output: OrderItem[];
@@ -55,6 +72,9 @@ export interface OrderInfo {
 const Payment: React.FC = () => {
   const [selectedMethod, setSelectedMethod] = useState<number | null>(null);
   const [selectedAddress, setSelectedAddress] = useState<number | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [orderConfirmation, setOrderConfirmation] = useState<OrderConfirmation | null>(null);
+  const [orderItems, setOrderItems] = useState<ServerOrderItem[]>([]);
   const [shippingAddress, setShippingAddress] = useState<ShippingAddress[]>([]);
   const [orderInfo, setOrderInfo] = useState<OrderInfo>({
     prices: {
@@ -145,6 +165,10 @@ const Payment: React.FC = () => {
       });
   };
 
+  const handleModalClose = () => {
+    setIsModalOpen(false);
+  };
+
   const handlePlaceOrder = () => {
     if (!isAddressSelected || !isMethodSelected) {
       alert("Address or Payment Method is not selected. Cannot place order.");
@@ -167,7 +191,7 @@ const Payment: React.FC = () => {
 
     axios
       .post(
-        "https://greenshop-backend-production.up.railway.app/api/shop/transaction/",
+        `https://greenshop-backend-production.up.railway.app/api/shop/transaction/`,
         requestData,
         {
           headers: {
@@ -176,10 +200,22 @@ const Payment: React.FC = () => {
         }
       )
       .then((response) => {
-        setShippingAddress(response.data);
+        const { orderData, orderItemData } = response.data;
+        setOrderConfirmation(orderData);
+        setOrderItems(orderItemData);
+        setIsModalOpen(true);
       })
       .catch((error) => {
-        console.error("Error fetching shipping address data: ", error);
+        console.error("Error placing order:", error);
+
+        if (error.response) {
+          const errorMessage = JSON.stringify(error.response.data.error) || "Unknown server error";
+          alert(`Server Error: ${errorMessage}`);
+        } else if (error.request) {
+          alert("No response from the server. Please try again later.");
+        } else {
+          alert("An unexpected error occurred. Please try again later.");
+        }
       });
   };
 
@@ -192,9 +228,9 @@ const Payment: React.FC = () => {
   return (
     <div className={s.payment}>
       <div className={s.addressBlock}>
-        <h5 className={s.billingAddress}>Адрес для выставления счета</h5>
+        <h5 className={s.billingAddress}>Государственный платежный адрес</h5>
         <Link className={s.newAdressesLink} to={"/account"}>
-          <button className={s.newAdresses}>Добавить новые адреса</button>
+          <button className={s.newAdresses}>Добавить новый адрес</button>
         </Link>
         <div className={s.addedAddresses}>
           {Array.isArray(shippingAddress) &&
@@ -205,20 +241,20 @@ const Payment: React.FC = () => {
                 {selectedAddress === index && (
                   <img className={s.cyrcle1} src="/img/payment/cyrcle1.svg" alt="cyrcle" />
                 )}
-                <h3>Адрес Доставки {index + 1}</h3>
+                <h3>Адрес доставки {index + 1}</h3>
 
                 <div>
                   <p className={s.addressField}>Имя: {address.firstName}</p>
                   <p className={s.addressField}>Фамилия: {address.lastName}</p>
                 </div>
                 <div>
-                  <p className={s.addressField}>Страна / Регион: {address.region}</p>
-                  <p className={s.addressField}>Провинция / Крупный город: span {address.city}</p>
-                  <p className={s.addressField}>Адрес улицы: {address.streetAddress}</p>
+                  <p className={s.addressField}>Страна / Область: {address.region}</p>
+                  <p className={s.addressField}>Город: {address.city}</p>
+                  <p className={s.addressField}>Адрес улицы : {address.streetAddress}</p>
                 </div>
                 <div>
                   <p className={s.addressField}>Область: {address.state}</p>
-                  <p className={s.addressField}>Телефон: {address.phone}</p>
+                  <p className={s.addressField}>Номер: {address.phone}</p>
                 </div>
                 <button onClick={() => handleDeleteAddress(address.id)}>
                   <Delete />
@@ -232,9 +268,9 @@ const Payment: React.FC = () => {
         </form>
       </div>
       <div className={s.order}>
-        <h1>Твой заказ</h1>
+        <h1>Ваш заказ</h1>
         <div className={s.info}>
-          <h3>Продукты</h3>
+          <h3>Товарв</h3>
           <h3>Промежуточный итог</h3>
         </div>
 
@@ -268,7 +304,7 @@ const Payment: React.FC = () => {
             <p>(-) {orderInfo.prices.couponDiscount}</p>
           </div>
           <div className={s.pricing}>
-            <p className={s.text}>Доставка</p>
+            <p className={s.text}>Перевозки</p>
             <p className={s.price}>{orderInfo.prices.shippingPrice}</p>
           </div>
           <div className={s.total}>
@@ -278,7 +314,7 @@ const Payment: React.FC = () => {
         </div>
 
         <div className={s.methods}>
-          <h4>Методы оплаты</h4>
+          <h4>Способ оплаты</h4>
           <div className={s.method} onClick={() => handleMethodClick(1)}>
             <img className={s.cyrcle0} src="/img/payment/cyrcle0.svg" alt="cyrcle" />
             {selectedMethod === 1 && (
@@ -317,104 +353,88 @@ const Payment: React.FC = () => {
           {placeOrderButtonStyle ? "Выберите адрес и способ оплаты" : "Разместить заказ"}
         </button>
       </div>
-      <div className={s.modalOverlay}>
-        <div className={s.modal}>
-          <div className={s.thanksBlock}>
-            <img className={s.crossImg} src="/img/checkout/cross.svg" alt="cross" />
-            <img className={s.thanksImg} src="/img/checkout/thanks.svg" alt="thanks" />
-            <p className={s.thanksText}>Ваш заказ был получен</p>
-          </div>
-          <div className={s.allInfoBlock}>
-            <div className={s.info}>
-              <p className={s.mark}>Номер заказ</p>
-              <p className={s.value}>19586687</p>
+      {isModalOpen && (
+        <div className={s.modalOverlay}>
+          <div className={s.modal}>
+            <div className={s.thanksBlock}>
+              <button onClick={handleModalClose}>
+                <img className={s.crossImg} src="/img/checkout/cross.svg" alt="cross" />
+              </button>
+              <img className={s.thanksImg} src="/img/checkout/thanks.svg" alt="thanks" />
+              <p className={s.thanksText}>Ваш заказ был получен</p>
             </div>
-            <div className={s.info}>
-              <p className={s.mark}>Дата</p>
-              <p className={s.value}>15 Sep, 2021</p>
-            </div>
-            <div className={s.info}>
-              <p className={s.mark}>Всего</p>
-              <p className={s.value}>2,699.00</p>
-            </div>
-            <div className={s.info}>
-              <p className={s.mark}>Метод оплаты</p>
-              <p className={s.value}>Цена доставки</p>
-            </div>
-          </div>
-          <div className={s.orderDetails}>
-            <p className={s.orderDetailsText}>Информация для заказа</p>
-
-            <div className={s.order}>
-              <div className={s.orderMarkText}>
-                <p>Продукты</p>
-                <p className={s.qty}>Кол-во</p>
-                <p className={s.subtotal}>Промежуточный итог</p>
+            <div className={s.allInfoBlock}>
+              <div className={s.info}>
+                <p className={s.mark}>Номер заказа</p>
+                <p className={s.value}>{orderConfirmation?.id}</p>
               </div>
-
-              <div className={s.orderCards}>
-                <div className={s.orderCard}>
-                  <img src="/img/goods/01.png" alt="plant" />
-
-                  <div className={s.orderCardInfo}>
-                    <p className={s.namePot}>Barberton Daisy</p>
-                    <p className={s.skuPot}>
-                      <span>SKU:</span> 1995751877966
-                    </p>
-                  </div>
-
-                  <p className={s.orderCardQuantity}>(x 2)</p>
-                  <p className={s.orderCardPrice}>$238.00</p>
-                </div>
-                <div className={s.orderCard}>
-                  <img src="/img/goods/01.png" alt="plant" />
-
-                  <div className={s.orderCardInfo}>
-                    <p className={s.namePot}>Barberton Daisy</p>
-                    <p className={s.skuPot}>
-                      <span>SKU:</span> 1995751877966
-                    </p>
-                  </div>
-
-                  <p className={s.orderCardQuantity}>(x 2)</p>
-                  <p className={s.orderCardPrice}>₽23800.00</p>
-                </div>
-                <div className={s.orderCard}>
-                  <img src="/img/goods/01.png" alt="plant" />
-
-                  <div className={s.orderCardInfo}>
-                    <p className={s.namePot}>Barberton Daisy</p>
-                    <p className={s.skuPot}>
-                      <span>SKU:</span> 1995751877966
-                    </p>
-                  </div>
-
-                  <p className={s.orderCardQuantity}>(x 2)</p>
-                  <p className={s.orderCardPrice}>₽23800.00</p>
-                </div>
+              <div className={s.info}>
+                <p className={s.mark}>Дата</p>
+                <p className={s.value}>{orderConfirmation?.date}</p>
               </div>
+              <div className={s.info}>
+                <p className={s.mark}>Всего</p>
+                <p className={s.value}>{orderConfirmation?.totalPrice}</p>
+              </div>
+              <div className={s.info}>
+                <p className={s.mark}>Метод оплаты</p>
+                <p className={s.value}>{orderConfirmation?.paymentMethod}</p>
+              </div>
+            </div>
+            <div className={s.orderDetails}>
+              <p className={s.orderDetailsText}>Детали заказа</p>
 
-              <div className={s.finalInfoBlock}>
-                <div className={s.finalInfo}>
-                  <p className={s.shipping}>Доставка</p>
-                  <p className={s.shippingPrice}>₽1600.00</p>
+              <div className={s.orderBlock}>
+                <div className={s.orderMarkText}>
+                  <p>Товаров</p>
+                  <p className={s.qty}>Кол-во</p>
+                  <p className={s.subtotal}>Промежуточный итог</p>
                 </div>
-                <div className={s.finalInfo}>
-                  <p className={s.total}>Всего</p>
-                  <p className={s.totalPrice}>₽53,699.00</p>
+
+                <div className={s.orderCards}>
+                  {orderItems.map((item) => (
+                    <div className={s.orderCard} key={item.id}>
+                      <img
+                        src={`https://greenshop-backend-production.up.railway.app${item.mainImg}`}
+                        alt={item.name}
+                      />
+                      <div className={s.orderCardInfo}>
+                        <p className={s.namePot}>{item.name}</p>
+                        <p className={s.skuPot}>
+                          <span>SKU:</span> {item.sku}
+                        </p>
+                      </div>
+                      <p className={s.orderCardQuantity}>(x {item.quantity})</p>
+                      <p className={s.orderCardPrice}>{item.subtotal}</p>
+                    </div>
+                  ))}
+                </div>
+
+                <div className={s.finalInfoBlock}>
+                  <div className={s.finalInfo}>
+                    <p className={s.shipping}>Перевозки</p>
+                    <p className={s.shippingPrice}>{orderConfirmation?.shippingPrice}</p>
+                  </div>
+                  <div className={s.finalInfo}>
+                    <p className={s.total}>Всего</p>
+                    <p className={s.totalPrice}>{orderConfirmation?.totalPrice}</p>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-          <div className={s.trackBlock}>
-            <p>
-              Ваш заказ в настоящее время обрабатывается. Вы получите электронное письмо с
-              подтверждением заказа в ближайшее время с ожидаемой датой доставки ваших товаров.
-            </p>
-            <button className={s.trackBtn}>Отследить ваш заказ</button>
+            <div className={s.trackBlock}>
+              <p>
+                Ваш заказ в настоящее время обрабатывается. Вы получите подтверждение заказа в
+                ближайшее время отправьте электронное письмо с ожидаемой датой доставки ваших
+                товаров.
+              </p>
+              <Link to={"/account"} className={s.trackBtn}>
+                Проверьте свой заказ
+              </Link>
+            </div>
           </div>
         </div>
-      </div>
+      )}
     </div>
   );
 };
