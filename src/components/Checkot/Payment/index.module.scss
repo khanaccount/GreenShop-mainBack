@@ -23,11 +23,17 @@
 
       .cyrcle0 {
         padding-right: 20px;
+        svg {
+          stroke: #3b43b9;
+        }
       }
 
       .cyrcle1 {
         position: absolute;
         left: 13px;
+        svg {
+          stroke: #3b43b9;
+        }
       }
 
       h3 {
