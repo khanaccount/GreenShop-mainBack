@@ -17,22 +17,22 @@ type Card = {
 
 const items: Card[] = [
   {
-    title: "Профиль",
+    title: "Account Details",
     icon: <UserSvg />,
     id: 1,
   },
   {
-    title: "Адрес",
+    title: "Address",
     icon: <LocationSvg />,
     id: 2,
   },
   {
-    title: "Заказы",
+    title: "Orders",
     icon: <OrderSvg />,
     id: 3,
   },
   {
-    title: "Избранное",
+    title: "Wishlist",
     icon: <FavoriteSvg />,
     id: 4,
   },
@@ -42,9 +42,15 @@ type SwitchBlockProps = {
   showDetails: () => void;
   showAddress: () => void;
   showWishlist: () => void;
+  showOrders: () => void;
 };
 
-const SwitchBlock: React.FC<SwitchBlockProps> = ({ showAddress, showDetails, showWishlist }) => {
+const SwitchBlock: React.FC<SwitchBlockProps> = ({
+  showAddress,
+  showDetails,
+  showWishlist,
+  showOrders,
+}) => {
   const [active, setActive] = useState<number | null>(1);
 
   const navigate = useNavigate();
@@ -55,6 +61,8 @@ const SwitchBlock: React.FC<SwitchBlockProps> = ({ showAddress, showDetails, sho
       showDetails();
     } else if (id === 2) {
       showAddress();
+    } else if (id === 3) {
+      showOrders();
     } else if (id === 4) {
       showWishlist();
     }
@@ -67,7 +75,7 @@ const SwitchBlock: React.FC<SwitchBlockProps> = ({ showAddress, showDetails, sho
 
   return (
     <div className={s.switchBlock}>
-      <h5>Мой аккаунт</h5>
+      <h5>My Account</h5>
       {items.map((item) => (
         <div
           key={item.id}
@@ -82,7 +90,7 @@ const SwitchBlock: React.FC<SwitchBlockProps> = ({ showAddress, showDetails, sho
       <div className={s.logOut}>
         <button onClick={handleLogout}>
           <img width={20} height={20} src="img/account/logout.svg" alt="logOut" />
-          <p>Выйти</p>
+          <p>Logout</p>
         </button>
       </div>
     </div>
