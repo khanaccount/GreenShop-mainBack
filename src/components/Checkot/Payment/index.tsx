@@ -314,7 +314,7 @@ const Payment: React.FC = () => {
           onClick={handlePlaceOrder}
           className={placeOrderButtonStyle ? s.placeOrderDisabled : s.placeOrder}
         >
-          {placeOrderButtonStyle ? "Select address and Payment Method" : "Place Order"}
+          {placeOrderButtonStyle ? "Выберите адрес и способ оплаты" : "Разместить заказ"}
         </button>
       </div>
       <div className={s.modalOverlay}>
